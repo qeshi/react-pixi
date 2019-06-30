@@ -817,6 +817,43 @@ var TilingSprite = createPIXIComponent(
   CommonDisplayObjectContainerImplementation,
   TilingSpriteComponentMixin );
 
+
+
+//
+// Animatedsprite
+//
+
+var AnimatedSpriteComponentMixin = {
+
+    createDisplayObject : function () {
+        let props = this._currentElement.props;
+        var textures = props.textures || props.images.map ( image => PIXI.Texture.fromImage(image) ); // PIXI.Texture.fromImage(props.images);
+        var animatedSprite =  new PIXI.extras.AnimatedSprite(textures);
+        animatedSprite.play();
+        return animatedSprite;
+    },
+
+    applySpecificDisplayObjectProps: function (oldProps, newProps) {
+        this.transferDisplayObjectPropsByName(oldProps, newProps,
+                                              {
+                                                  'tileScale' : 1,
+                                                  'tilePosition' : 0,
+                                                  'tileScaleOffset' : 1
+                                              });
+
+        // also modify values that apply to Sprite
+        SpriteComponentMixin.applySpecificDisplayObjectProps.apply(this,arguments);
+    }
+
+};
+
+var AnimatedSprite = createPIXIComponent(
+    'AnimatedSprite',
+    DisplayObjectContainerMixin,
+    CommonDisplayObjectContainerImplementation,
+    AnimatedSpriteComponentMixin );
+
+
 //
 // Text
 //
@@ -981,7 +1018,8 @@ var PIXIComponents = {
   Text : Text,
   BitmapText : BitmapText,
   TilingSprite : TilingSprite,
-  Graphics : Graphics
+  Graphics : Graphics,
+  AnimatedSprite : AnimatedSprite
 };
 
 var PIXIFactories = {};
