@@ -1,4 +1,3 @@
-
 /*
  * Copyright (c) 2014-2015 Gary Haussmann
  *
@@ -836,10 +835,24 @@ var AnimatedSpriteComponentMixin = {
     applySpecificDisplayObjectProps: function (oldProps, newProps) {
         this.transferDisplayObjectPropsByName(oldProps, newProps,
                                               {
-                                                  'tileScale' : 1,
-                                                  'tilePosition' : 0,
-                                                  'tileScaleOffset' : 1
-                                              });
+                                                  'loop' : true,
+                                                  'animationSpeed' : 1
+                                               });
+
+        let displayObject = this._displayObject;
+
+        // hook up event callbacks
+        ['onComplete',
+         'onFrameChange',
+         'onLoop'].forEach(function (pixieventtype) {
+            if (typeof oldProps[pixieventtype] === 'function') {
+                displayObject.removeListener(pixieventtype, oldProps[pixieventtype]);
+            }
+
+            if (typeof newProps[pixieventtype] === 'function') {
+                displayObject.on(pixieventtype, newProps[pixieventtype]);
+            }
+        });
 
         // also modify values that apply to Sprite
         SpriteComponentMixin.applySpecificDisplayObjectProps.apply(this,arguments);

@@ -1,6 +1,6 @@
 {
   "name": "react-pixi",
-  "version": "0.9.19",
+  "version": "0.9.20",
   "description": "Construct PIXI.js scenes using React",
   "keywords": [
     "react",
@@ -33,6 +33,7 @@
     "brfs": "^1.4.1",
     "fbjs": "^0.7.0",
     "ify-loader": "^1.0.3",
+    "install-peers": "^1.0.3",
     "object-assign": "^4.0.1"
   },
   "peerDependencies": {
